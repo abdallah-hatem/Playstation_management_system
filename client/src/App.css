@@ -1,0 +1,29 @@
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: beige;
+}
+.main {
+  display: flex;
+  justify-content: center;
+}
+.devices-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}

@@ -1,0 +1,22 @@
+.info {
+  font-size: 17px;
+  font-weight: 500;
+}
+.watch {
+  font-size: 70px;
+  text-align: center;
+}
+.top-button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.receipt {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.receipt p {
+  font-size: 30px;
+}
