@@ -19,9 +19,11 @@ function Device({ title = "title" }) {
   const [charge, setCharge] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
 
+  const hourlyRate = 50;
+
   // set charge for 0.5$/min
   useEffect(() => {
-    setCharge(hours * 30 + minutes * 0.5);
+    setCharge((hours * hourlyRate + minutes * (hourlyRate / 60)).toFixed(1));
   }, [hours, minutes]);
 
   const timeFormat = `${new Date().getHours() % 12 || 12}:${
@@ -60,7 +62,7 @@ function Device({ title = "title" }) {
   function handleOk() {
     ADD_RECEIPT({
       date: dateFormat,
-      charge: charge,
+      charge: Math.round(charge),
       user: String(getUserId()),
     }).then(() => {
       setModalOpen(false);

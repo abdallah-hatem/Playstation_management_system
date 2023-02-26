@@ -6,10 +6,11 @@ export default function CardComponent({
   style,
   children,
   loading,
+  className,
 }) {
   return (
     <Card
-      className="card"
+      className={`card ${className}`}
       title={title}
       loading={loading}
       style={{ ...style, margin: 15 }}

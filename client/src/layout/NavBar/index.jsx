@@ -3,9 +3,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { DevicesContext } from "../../context/DevicesContext";
 import { EDIT_USER_DEVICES } from "./Api";
+import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
 import ButtonComponent from "../../Components/ButtonComponent";
 import ModalComponent from "../../Components/ModalComponent";
 import InputComponent from "../../Components/InputComponent";
+import DrawerComponent from "../../Components/DrawerComponent";
 import "./style.css";
 
 export default function NavBar() {
@@ -15,6 +17,7 @@ export default function NavBar() {
   const { logout, isLoggedIn, getUserId } = useContext(AuthContext);
   const { setDevicesNumber } = useContext(DevicesContext);
   const [currentRoute, setCurrentRoute] = useState("");
+  const [drawer, setDrawer] = useState(false);
 
   useEffect(() => {
     setCurrentRoute(location.pathname);
@@ -43,12 +46,13 @@ export default function NavBar() {
     EDIT_USER_DEVICES({
       id: getUserId(),
       devices: values["devices_number"],
+    }).then(() => {
+      setModalOpen(false);
+      window.location.reload();
     });
-    setModalOpen(false);
-    window.location.reload();
   }
 
-  const buttons = [
+  const navItems = [
     {
       title: "Devices",
       style: { padding: "0 5px" },
@@ -69,7 +73,7 @@ export default function NavBar() {
     },
     {
       title: "logout",
-      style: { padding: "0 5px", marginLeft: 5 },
+      style: { padding: "0 5px", marginLeft: 5, color: "red" },
       onClick: handleLogout,
       hidden: !isLoggedIn(),
     },
@@ -78,16 +82,42 @@ export default function NavBar() {
   return (
     <div className="navbar-container">
       <h2>PlayStation.</h2>
-      <div>
-        {buttons.map((el) => (
+      <div className="nav-items-container">
+        {navItems.map((el) => (
           <ButtonComponent
+            type="text"
             title={el.title}
-            style={el.style}
+            style={{ ...el.style, fontSize: 18 }}
             onClick={el.onClick}
             hidden={el.hidden}
           />
         ))}
       </div>
+
+      {/* Responsive Navbar */}
+      <MenuOutlined className="responsive" onClick={() => setDrawer(true)} />
+
+      <DrawerComponent
+        title=""
+        open={drawer}
+        onClose={() => setDrawer(false)}
+        closeIcon={<CloseOutlined style={{ fontSize: 28 }} />}
+      >
+        {navItems.map((el) => (
+          <p
+            className="responsive-nav-items"
+            style={{ color: el.title === "logout" && "red" }}
+            onClick={() => {
+              el.onClick();
+              setDrawer(false);
+            }}
+          >
+            {el.title}
+          </p>
+        ))}
+      </DrawerComponent>
+
+      {/* Modals */}
 
       <ModalComponent
         title="how many Devices ?"

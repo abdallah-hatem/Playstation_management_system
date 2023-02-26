@@ -7,6 +7,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { DevicesContext } from "../../context/DevicesContext";
 import { LOGIN } from "./Api";
 import LinkComponent from "../../Components/LinkComponent";
+import "./style.css";
 
 export default function Login() {
   let navigate = useNavigate();
@@ -60,7 +61,7 @@ export default function Login() {
   ];
 
   return (
-    <CardComponent title="Login" style={{ width: "50%", alignSelf: "center" }}>
+    <CardComponent title="Login" className="card-comp">
       <form>
         {error && (
           <h6 style={{ color: "red", textAlign: "center" }}>

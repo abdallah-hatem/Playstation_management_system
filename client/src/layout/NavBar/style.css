@@ -10,3 +10,22 @@
   top: 0;
   z-index: 5;
 }
+
+.responsive-nav-items {
+  font-size: 25px;
+  margin: "15px 0";
+}
+
+.responsive {
+  display: none;
+  font-size: 29px;
+}
+
+@media only screen and (max-width: 600px) {
+  .nav-items-container {
+    display: none;
+  }
+  .responsive {
+    display: block;
+  }
+}
