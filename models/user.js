@@ -25,6 +25,11 @@ const UserSchema = new mongoose.Schema(
     },
     devices: {
       type: Number,
+      required: [true, "can't be blank"],
+    },
+    hourRate: {
+      type: Number,
+      required: [true, "can't be blank"],
     },
     recepits: [{ type: mongoose.Schema.Types.ObjectId, ref: "Receipt" }],
   },

@@ -17,7 +17,7 @@ async function getAllUsers(req, res) {
 // Sign Up
 async function signUp(req, res) {
   try {
-    const { username, email, password, devices } = req.body;
+    const { username, email, password, devices, hourRate } = req.body;
 
     // find if email already exists
     const oldUser = await User.findOne({ email });
@@ -32,6 +32,7 @@ async function signUp(req, res) {
       email,
       password: hashedPassword,
       devices,
+      hourRate,
     });
 
     // const accessToken = newUser.generateAccessToken(newUser._id);
@@ -72,9 +73,9 @@ async function deleteUser(req, res) {
 }
 // Edit a user
 async function EditUser(req, res) {
-  const { id, devices } = req.body;
+  const { id, devices, hourRate } = req.body;
   try {
-    const user = await User.findByIdAndUpdate(id, { devices });
+    const user = await User.findByIdAndUpdate(id, { devices, hourRate });
     if (!user) {
       return res.status(404).send({ message: "no user found" });
     }

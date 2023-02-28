@@ -1,7 +1,7 @@
 import { useCallback, useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ButtonComponent from "../../Components/ButtonComponent";
-import CardComponent from "../../Components/CardComponent/CardComponent";
+import CardComponent from "../../Components/CardComponent";
 import InputComponent from "../../Components/InputComponent";
 import { AuthContext } from "../../context/AuthContext";
 import { DevicesContext } from "../../context/DevicesContext";
@@ -12,7 +12,7 @@ import "./style.css";
 export default function Login() {
   let navigate = useNavigate();
   const { login } = useContext(AuthContext);
-  const { setDevicesNumber } = useContext(DevicesContext);
+  const { setDevicesNumber, setHourRate } = useContext(DevicesContext);
 
   const defaultValues = useRef({
     email: "",
@@ -38,8 +38,10 @@ export default function Login() {
         login(data.user._id);
         navigate("/");
         setDevicesNumber(data.user.devices ?? 3);
-        console.log(data, "login data");
+        setHourRate(data.user.hourRate);
         setError(false);
+
+        console.log(data, "login data");
       } else {
         setError(true);
       }

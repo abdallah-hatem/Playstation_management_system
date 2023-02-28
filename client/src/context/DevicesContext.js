@@ -19,8 +19,22 @@ export function DevicesProvider({ children }) {
     return GetFromLocalStorage("devices");
   }
 
+  function setHourRate(number) {
+    StoreToLocalStorage(
+      "hourRate",
+      number,
+      new Date().setDate(new Date().getDate() + 7)
+    );
+  }
+
+  function getHourRate() {
+    return GetFromLocalStorage("hourRate");
+  }
+
   return (
-    <DevicesContext.Provider value={{ setDevicesNumber, getDevicesNumber }}>
+    <DevicesContext.Provider
+      value={{ setDevicesNumber, getDevicesNumber, setHourRate, getHourRate }}
+    >
       {children}
     </DevicesContext.Provider>
   );

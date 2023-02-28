@@ -19,6 +19,7 @@ export const AuthProvider = ({ children }) => {
   function logout() {
     RemoveFromLocalStorage("user");
     RemoveFromLocalStorage("devices");
+    RemoveFromLocalStorage("hourRate");
   }
 
   function isLoggedIn() {

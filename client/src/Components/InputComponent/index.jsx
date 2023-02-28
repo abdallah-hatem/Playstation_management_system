@@ -1,23 +1,33 @@
 import { Input } from "antd";
 
 export default function InputComponent({
-  placeholder = "placeholder",
+  placeholder,
   name,
   onChange,
   type,
   style,
   onKeyUp,
   status,
+  label,
+  value,
 }) {
   return (
-    <Input
-      status={status}
-      placeholder={placeholder}
-      name={name}
-      onChange={onChange}
-      type={type}
-      style={style}
-      onKeyUp={onKeyUp}
-    />
+    <>
+      {label && (
+        <label htmlFor="" style={{ marginBottom: 5 }}>
+          {label}
+        </label>
+      )}
+      <Input
+        status={status}
+        placeholder={placeholder}
+        name={name}
+        value={value}
+        onChange={onChange}
+        type={type}
+        style={style}
+        onKeyUp={onKeyUp}
+      />
+    </>
   );
 }

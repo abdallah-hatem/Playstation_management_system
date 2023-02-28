@@ -8,7 +8,7 @@ const {
 
 const router = express.Router();
 
-router.route("/receipts").post(addReceipt);
+router.route("/receipts").post(addReceipt).get(getAllReceipts);
 router.route("/get-receipts").post(getUserReceipts);
 router.route("/receipts/:id").delete(deleteReceipt);
 

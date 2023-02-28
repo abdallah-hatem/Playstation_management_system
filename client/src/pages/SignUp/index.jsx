@@ -1,6 +1,6 @@
 import { useCallback, useContext, useRef, useState } from "react";
 import ButtonComponent from "../../Components/ButtonComponent";
-import CardComponent from "../../Components/CardComponent/CardComponent";
+import CardComponent from "../../Components/CardComponent";
 import InputComponent from "../../Components/InputComponent";
 import { AuthContext } from "../../context/AuthContext";
 import LinkComponent from "../../Components/LinkComponent";
@@ -10,7 +10,7 @@ import { DevicesContext } from "../../context/DevicesContext";
 
 export default function SignUp() {
   const { login } = useContext(AuthContext);
-  const { setDevicesNumber } = useContext(DevicesContext);
+  const { setDevicesNumber, setHourRate } = useContext(DevicesContext);
 
   let navigate = useNavigate();
 
@@ -19,6 +19,7 @@ export default function SignUp() {
     email: "",
     password: "",
     devices: "",
+    hourRate: "",
   });
 
   const [values, setValues] = useState(defaultValues.current);
@@ -29,7 +30,7 @@ export default function SignUp() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (!values.email || !values.password || !values.username) {
+    if (Object.values(values).filter((el) => !el).length > 0) {
       alert("Fill the inputs");
       return;
     }
@@ -37,6 +38,8 @@ export default function SignUp() {
     SIGN_UP(values).then((res) => {
       if (res) {
         setDevicesNumber(res.data.devices);
+        setHourRate(res.data.hourRate);
+        // FIX! sending user id as token for now
         login(res.data._id);
         navigate("/");
       }
@@ -63,6 +66,12 @@ export default function SignUp() {
     {
       placeholder: "Devices Number",
       name: "devices",
+      type: "number",
+      onChange: handleChange,
+    },
+    {
+      placeholder: "Hour Rate",
+      name: "hourRate",
       type: "number",
       onChange: handleChange,
     },

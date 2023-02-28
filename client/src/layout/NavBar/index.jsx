@@ -15,7 +15,8 @@ export default function NavBar() {
   const location = useLocation();
 
   const { logout, isLoggedIn, getUserId } = useContext(AuthContext);
-  const { setDevicesNumber } = useContext(DevicesContext);
+  const { setDevicesNumber, setHourRate, getHourRate, getDevicesNumber } =
+    useContext(DevicesContext);
   const [currentRoute, setCurrentRoute] = useState("");
   const [drawer, setDrawer] = useState(false);
 
@@ -24,11 +25,13 @@ export default function NavBar() {
   }, [location]);
 
   const defaultValues = useRef({
-    devices_number: 0,
+    devices_number: getDevicesNumber(),
+    hour_rate: getHourRate(),
   });
 
   const [values, setValues] = useState(defaultValues.current);
   const [modalOpen, setModalOpen] = useState(false);
+  const [logoutModalOpen, setLogoutModalOpen] = useState(false);
 
   const handleChange = useCallback((e) => {
     setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -36,25 +39,28 @@ export default function NavBar() {
 
   function handleLogout() {
     logout();
+    setLogoutModalOpen(false);
     navigate("/login");
   }
 
-  function handleDevicesButton() {
+  function handleSettingsButton() {
     // update devices in local storage
     setDevicesNumber(values["devices_number"]);
+    setHourRate(values["hour_rate"]);
     // update devices in database
     EDIT_USER_DEVICES({
       id: getUserId(),
       devices: values["devices_number"],
+      hourRate: values["hour_rate"],
     }).then(() => {
       setModalOpen(false);
       window.location.reload();
     });
   }
 
-  const navItems = [
+  const navButtons = [
     {
-      title: "Devices",
+      title: "Settings",
       style: { padding: "0 5px" },
       onClick: () => setModalOpen(true),
       hidden: !isLoggedIn() || currentRoute === "/receipts",
@@ -74,7 +80,7 @@ export default function NavBar() {
     {
       title: "logout",
       style: { padding: "0 5px", marginLeft: 5, color: "red" },
-      onClick: handleLogout,
+      onClick: () => setLogoutModalOpen(true),
       hidden: !isLoggedIn(),
     },
   ];
@@ -83,7 +89,7 @@ export default function NavBar() {
     <div className="navbar-container">
       <h2>PlayStation.</h2>
       <div className="nav-items-container">
-        {navItems.map((el) => (
+        {navButtons.map((el) => (
           <ButtonComponent
             type="text"
             title={el.title}
@@ -103,7 +109,7 @@ export default function NavBar() {
         onClose={() => setDrawer(false)}
         closeIcon={<CloseOutlined style={{ fontSize: 28 }} />}
       >
-        {navItems.map((el) => (
+        {navButtons.map((el) => (
           <p
             className="responsive-nav-items"
             style={{ color: el.title === "logout" && "red" }}
@@ -120,17 +126,36 @@ export default function NavBar() {
       {/* Modals */}
 
       <ModalComponent
-        title="how many Devices ?"
+        title="Settings"
         open={modalOpen}
         onCancel={() => setModalOpen(false)}
-        onOk={handleDevicesButton}
+        onOk={handleSettingsButton}
       >
         <InputComponent
+          label="number of devices"
           type="number"
           name="devices_number"
+          value={values["devices_number"]}
+          onChange={handleChange}
+          style={{ marginBottom: 15 }}
+        />
+        <InputComponent
+          label="Hour Rate"
+          type="number"
+          name="hour_rate"
+          value={values["hour_rate"]}
           onChange={handleChange}
         />
       </ModalComponent>
+
+      <ModalComponent
+        title="Are you sure you want to log out ?"
+        okText="Yes"
+        cancelText="No"
+        open={logoutModalOpen}
+        onCancel={() => setLogoutModalOpen(false)}
+        onOk={handleLogout}
+      />
     </div>
   );
 }

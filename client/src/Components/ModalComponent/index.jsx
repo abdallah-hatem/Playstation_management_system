@@ -1,5 +1,5 @@
-import {Modal} from "antd"
-import React from "react"
+import { Modal } from "antd";
+import React from "react";
 
 export default function ModalComponent({
   title = "title",
@@ -7,10 +7,19 @@ export default function ModalComponent({
   onOk,
   onCancel,
   children,
+  okText,
+  cancelText,
 }) {
   return (
-    <Modal title={title} open={open} onOk={onOk} onCancel={onCancel}>
+    <Modal
+      title={title}
+      open={open}
+      onOk={onOk}
+      okText={okText}
+      onCancel={onCancel}
+      cancelText={cancelText}
+    >
       {children}
     </Modal>
-  )
+  );
 }

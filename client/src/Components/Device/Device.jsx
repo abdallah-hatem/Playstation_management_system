@@ -2,14 +2,17 @@ import { useContext, useEffect, useState } from "react";
 import { useStopwatch } from "react-timer-hook";
 import { ADD_RECEIPT } from "../../pages/Main/Api";
 import { AuthContext } from "../../context/AuthContext";
-import CardComponent from "../CardComponent/CardComponent";
+import { DevicesContext } from "../../context/DevicesContext";
+import CardComponent from "../CardComponent";
 import ButtonComponent from "../ButtonComponent";
 import PopUpComponent from "../PopUpComponent";
 import ModelComponent from "../ModalComponent";
 import "./style.css";
+import StopWatch from "../StopWatch";
 
 function Device({ title = "title" }) {
   const { getUserId } = useContext(AuthContext);
+  const { getHourRate } = useContext(DevicesContext);
 
   const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
     useStopwatch({ autoStart: false, offsetTimestamp: new Date() });
@@ -19,11 +22,11 @@ function Device({ title = "title" }) {
   const [charge, setCharge] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
 
-  const hourlyRate = 50;
-
   // set charge for 0.5$/min
   useEffect(() => {
-    setCharge((hours * hourlyRate + minutes * (hourlyRate / 60)).toFixed(1));
+    setCharge(
+      (hours * getHourRate() + minutes * (getHourRate() / 60)).toFixed(1)
+    );
   }, [hours, minutes]);
 
   const timeFormat = `${new Date().getHours() % 12 || 12}:${
@@ -158,7 +161,7 @@ function Device({ title = "title" }) {
           <ButtonComponent
             title="Done"
             style={{ backgroundColor: "green" }}
-            disabled={!charge}
+            disabled={!(charge > 0)}
           />
         </PopUpComponent>
       </div>
@@ -177,6 +180,8 @@ function Device({ title = "title" }) {
           <p className="info">Charge: ${charge}</p>
         </div>
       </ModelComponent>
+
+      {/* <StopWatch /> */}
     </CardComponent>
   );
 }

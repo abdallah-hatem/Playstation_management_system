@@ -13,7 +13,7 @@ export default function CardComponent({
       className={`card ${className}`}
       title={title}
       loading={loading}
-      style={{ ...style, margin: 15 }}
+      style={{ margin: 15, ...style }}
     >
       {children}
     </Card>

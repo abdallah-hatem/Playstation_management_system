@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import CardComponent from "../../Components/CardComponent/CardComponent";
+import CardComponent from "../../Components/CardComponent";
 import MasterTable from "../../Components/MasterTable/MasterTable";
 import useGetReceiptsHook from "../../CustomHooks/getReceiptsHook";
 import { DELETE_RECEIPT_BY_ID } from "./Api";
