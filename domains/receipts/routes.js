@@ -4,7 +4,7 @@ const {
   addReceipt,
   deleteReceipt,
   getUserReceipts,
-} = require("../controllers/receipts");
+} = require("./controller");
 
 const router = express.Router();
 

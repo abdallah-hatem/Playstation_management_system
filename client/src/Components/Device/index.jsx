@@ -8,7 +8,6 @@ import ButtonComponent from "../ButtonComponent";
 import PopUpComponent from "../PopUpComponent";
 import ModelComponent from "../ModalComponent";
 import "./style.css";
-import StopWatch from "../StopWatch";
 
 function Device({ title = "title" }) {
   const { getUserId } = useContext(AuthContext);
@@ -19,8 +18,8 @@ function Device({ title = "title" }) {
 
   const [startTime, setStartTime] = useState(0);
   const [endTime, setEndTime] = useState(0);
-  const [charge, setCharge] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
+  const [charge, setCharge] = useState(0);
 
   // set charge for 0.5$/min
   useEffect(() => {

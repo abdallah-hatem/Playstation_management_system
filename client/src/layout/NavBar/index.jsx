@@ -43,7 +43,7 @@ export default function NavBar() {
     navigate("/login");
   }
 
-  function handleSettingsButton() {
+  function handleSettingsButtonSubmit() {
     // update devices in local storage
     setDevicesNumber(values["devices_number"]);
     setHourRate(values["hour_rate"]);
@@ -58,23 +58,31 @@ export default function NavBar() {
     });
   }
 
+  function onSettingsButtonClick() {
+    defaultValues.current.devices_number = getDevicesNumber();
+    defaultValues.current.hour_rate = getHourRate();
+    setModalOpen(true);
+  }
+
+  function onReceiptsButtonClick() {
+    if (currentRoute === "/receipts") {
+      navigate("/");
+    } else {
+      navigate("/receipts");
+    }
+  }
+
   const navButtons = [
     {
       title: "Settings",
       style: { padding: "0 5px" },
-      onClick: () => setModalOpen(true),
+      onClick: onSettingsButtonClick,
       hidden: !isLoggedIn() || currentRoute === "/receipts",
     },
     {
       title: currentRoute === "/receipts" ? "Home" : "Receipts",
       style: { padding: "0 5px", marginLeft: 5 },
-      onClick: () => {
-        if (currentRoute === "/receipts") {
-          navigate("/");
-        } else {
-          navigate("/receipts");
-        }
-      },
+      onClick: onReceiptsButtonClick,
       hidden: !isLoggedIn(),
     },
     {
@@ -148,7 +156,7 @@ export default function NavBar() {
         title="Settings"
         open={modalOpen}
         onCancel={() => setModalOpen(false)}
-        onOk={handleSettingsButton}
+        onOk={handleSettingsButtonSubmit}
       >
         {settingsInputs.map((el) => (
           <InputComponent

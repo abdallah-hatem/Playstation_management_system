@@ -6,7 +6,7 @@ const {
   login,
   getUserByEmail,
   EditUser,
-} = require("../controllers/user");
+} = require("./controller");
 
 const router = express.Router();
 

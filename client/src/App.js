@@ -11,6 +11,7 @@ function App() {
   const location = useLocation();
 
   const [currentRoute, setCurrentRoute] = useState("");
+  console.log(currentRoute);
 
   useEffect(() => {
     setCurrentRoute(location.pathname);

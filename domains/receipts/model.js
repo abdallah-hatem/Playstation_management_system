@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const User = require("../models/user");
 
 const ReceiptSchema = mongoose.Schema({
   date: { type: String, required: [true, "can't be blank"] },

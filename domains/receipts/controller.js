@@ -1,5 +1,4 @@
-const Receipt = require("../models/receipt");
-const User = require("../models/user");
+const Receipt = require("./model");
 
 // Get Receipts
 async function getAllReceipts(req, res) {
